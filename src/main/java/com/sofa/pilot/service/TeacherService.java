@@ -16,6 +16,6 @@ public class TeacherService extends BaseCrudService<Teacher, TeacherInput, Teach
 		super(mongoRepository, Teacher.class);
 	}
 	
-	public void testc() {
+	public void testd() {
 	}
 }
