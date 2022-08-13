@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -16,6 +15,8 @@ import org.springframework.stereotype.Component;
 public class PropertyLoader {
 
 	private static final String SLASH = "/";
+
+	private static final String EXTERNAL_CONFIG = "/tmp/local/config";
 	private static final Logger logger = Logger.getLogger(PropertyLoader.class.getName());
 	private static final String PROPERTIES = ".properties";
 
@@ -34,13 +35,13 @@ public class PropertyLoader {
 		String extFileName = fileName + PROPERTIES;
 		Properties properties = null;
 		try {
-			File file = new File(getCodeSourcePath(), extFileName);
+			File file = new File(EXTERNAL_CONFIG, extFileName);
 			try (InputStream fis = new FileInputStream(file)) {
 				properties = new Properties();
 				properties.load(fis);
 			}
-		} catch (URISyntaxException | IOException e) {
-			logger.log(Level.INFO, "External properties not found trying to load internal properties {} ", fileName);
+		} catch (IOException e) {
+			logger.log(Level.INFO, "External properties not found trying to load internal properties " + fileName);
 			String inFileName = SLASH + fileName + PROPERTIES;
 			try (InputStream in = PropertyLoader.class.getResourceAsStream(inFileName)) {
 				properties = new Properties();
@@ -51,9 +52,5 @@ public class PropertyLoader {
 		}
 
 		return properties;
-	}
-
-	public static String getCodeSourcePath() throws SecurityException, URISyntaxException {
-		return PropertyLoader.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 	}
 }
