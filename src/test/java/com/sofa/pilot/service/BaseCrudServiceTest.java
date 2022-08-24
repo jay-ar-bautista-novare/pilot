@@ -79,7 +79,7 @@ class BaseCrudServiceTest {
 			crudService.read(id);
 		});
 
-		assertEquals(MOCK_DOMAIN_NOT_FOUND, exception.getMessage());
+		assertEquals("Test will fail", exception.getMessage());
 	}
 
 	@Test
