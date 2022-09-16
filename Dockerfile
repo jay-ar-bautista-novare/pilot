@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine3.14
+FROM openjdk:19-jdk-alpine3.14
 EXPOSE 8080
 ARG JAR_FILE=target/pilot-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} app.jar
